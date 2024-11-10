@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,10 @@ namespace RemotePlayTogetherSync
 {
 	internal class Utils
 	{
+		/// <summary>
+		/// Get the install path of Steam
+		/// </summary>
+		/// <returns></returns>
 		public static string GetSteamInstallPath()
 		{
 			string registryKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Valve\Steam"; // For 64-bit systems
@@ -24,6 +29,26 @@ namespace RemotePlayTogetherSync
 			return installPath;
 		}
 
+		/// <summary>
+		/// Get the titles of all open windows
+		/// </summary>
+		/// <returns></returns>
+		public static List<string> GetWindowTitles()
+		{
+			List<string> titles = new();
+			Process[] processlist = Process.GetProcesses();
+			foreach (Process process in processlist)
+			{
+				if (string.IsNullOrEmpty(process.MainWindowTitle)) continue;
+				titles.Add(process.MainWindowTitle);
+			}
+			return titles;
+		}
+
+		/// <summary>
+		/// Fix the selected item in a combobox
+		/// </summary>
+		/// <param name="comboBox"></param>
 		public static void FixSelectedItem(ComboBox comboBox)
 		{
 			// Clear the selected item if its nolonger valid
@@ -39,6 +64,11 @@ namespace RemotePlayTogetherSync
 			}
 		}
 
+		/// <summary>
+		/// Format a number with commas
+		/// </summary>
+		/// <param name="number"></param>
+		/// <returns></returns>
 		public static string Format(int number)
 		{
 			return $"{number:n}";

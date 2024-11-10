@@ -8,13 +8,14 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static RemotePlayTogetherSync.SteamAppList;
 
 namespace RemotePlayTogetherSync
 {
 	public partial class FrmMain : Form
 	{
-		List<SteamAppList.App> appList;
-		Worker remotePlaySync;
+		private List<App> appList = new();
+		private Worker? syncWorker;
 
 		public FrmMain()
 		{
@@ -23,6 +24,7 @@ namespace RemotePlayTogetherSync
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
+			// Check if Steam is installed
 			if (string.IsNullOrEmpty(Utils.GetSteamInstallPath()) == true)
 			{
 				MessageBox.Show("Failed to get Steam install path");
@@ -30,21 +32,30 @@ namespace RemotePlayTogetherSync
 				return;
 			}
 
+			// Set the logs textbox
 			Logs.SetTextBox(txtLogs);
 
+			// Load Steam apps in the background
 			Logs.Info($"Loading Steam apps...");
-			Task.Run(() =>
+			Task.Run(async () =>
 			{
 				try
 				{
-					using (WebClient webClient = new WebClient())
+					using (HttpClient httpClient = new())
 					{
-						webClient.Encoding = Encoding.UTF8;
-						string json = webClient.DownloadString("https://api.steampowered.com/ISteamApps/GetAppList/v2/");
-						appList = JsonSerializer.Deserialize<SteamAppList>(json).List.Apps;
+						string json = await httpClient.GetStringAsync("https://api.steampowered.com/ISteamApps/GetAppList/v2/");
+						List<App>? fetchedList = JsonSerializer.Deserialize<SteamAppList>(json)?.List?.Apps;
 
-						// Remove 753 from the list, as its steam its self
-						appList.RemoveAll(app => app.Id == 753);
+						if (fetchedList == null)
+						{
+							throw new Exception("No apps returned from API");
+						}
+
+						// Remove 753 from the list, as thats the Steam app itself
+						fetchedList.RemoveAll(app => app.Id == 753);
+
+						appList.Clear();
+						appList.AddRange(fetchedList);
 					}
 				}
 				catch (Exception e)
@@ -54,7 +65,7 @@ namespace RemotePlayTogetherSync
 					return;
 				}
 
-				// Enable the UI
+				// Enable the window selection UI
 				Invoke(() =>
 				{
 					btnWindow.Enabled = true;
@@ -69,24 +80,11 @@ namespace RemotePlayTogetherSync
 			RefreshWindowList();
 		}
 
-		private List<string> GetWindowTitles()
-		{
-			List<string> titles = new();
-			Process[] processlist = Process.GetProcesses();
-			foreach (Process process in processlist)
-			{
-				if (!String.IsNullOrEmpty(process.MainWindowTitle))
-				{
-					titles.Add(process.MainWindowTitle);
-				}
-			}
-			return titles;
-		}
-
 		private void btnWindowAuto_Click(object sender, EventArgs e)
 		{
-			List<string> titles = GetWindowTitles();
-			SteamAppList.App foundApp = null;
+			// Check all windows for a known Steam game title
+			List<string> titles = Utils.GetWindowTitles();
+			App? foundApp = null;
 			foreach (string title in titles)
 			{
 				foundApp = appList.FirstOrDefault(app => title.Equals(app.Name));
@@ -102,6 +100,7 @@ namespace RemotePlayTogetherSync
 				return;
 			}
 
+			// Refresh the window list and select the found app
 			RefreshWindowList();
 			cboWindow.SelectedItem = foundApp.Name;
 		}
@@ -110,8 +109,9 @@ namespace RemotePlayTogetherSync
 		{
 			// Re-populate the list
 			cboWindow.Items.Clear();
-			cboWindow.Items.AddRange(GetWindowTitles().ToArray());
+			cboWindow.Items.AddRange(Utils.GetWindowTitles().ToArray());
 
+			// Fix the selected item
 			Utils.FixSelectedItem(cboWindow);
 		}
 
@@ -122,24 +122,25 @@ namespace RemotePlayTogetherSync
 
 		private void btnWindow_Click(object sender, EventArgs e)
 		{
-			SteamAppList.App foundApp = appList.FirstOrDefault(app => cboWindow.SelectedItem.Equals(app.Name));
-			//SteamAppList.App foundApp = appList.FirstOrDefault(app => app.Id.Equals(267530));
-
+			// Find the selected app object
+			App? foundApp = appList.FirstOrDefault(app => app.Name.Equals(cboWindow.SelectedItem));
 			if (foundApp == null)
 			{
 				MessageBox.Show($"No Steam game matching the name '{cboWindow.SelectedItem}'");
 				return;
 			}
 
-			remotePlaySync = new(foundApp);
+			syncWorker = new(foundApp);
 
 			RefreshFriendsList();
 
+			// Disable the window selection UI
 			btnWindow.Enabled = false;
 			btnWindowAuto.Enabled = false;
 			btnWindowRefresh.Enabled = false;
 			cboWindow.Enabled = false;
 
+			// Enable the friend selection UI
 			btnFriend.Enabled = true;
 			btnFriendAuto.Enabled = true;
 			btnFriendRefresh.Enabled = true;
@@ -148,34 +149,46 @@ namespace RemotePlayTogetherSync
 
 		private void RefreshFriendsList()
 		{
+			if (syncWorker == null) return;
+
+			// Re-populate the list
 			cboFriend.Items.Clear();
-			var friends = remotePlaySync.GetFriends()
+			var friends = syncWorker.GetFriends()
 				.Select(friend => $"{friend.Name} - {friend.Id}").ToArray();
 			cboFriend.Items.AddRange(friends);
 
+			// Fix the selected item
 			Utils.FixSelectedItem(cboFriend);
 		}
 
 		private void btnFriend_Click(object sender, EventArgs e)
 		{
-			IEnumerable<Friend> friends = remotePlaySync.GetFriends().Where(friend => $"{friend.Name} - {friend.Id}".Equals(cboFriend.SelectedItem));
+			if (syncWorker == null) return;
+
+			// Find the selected friend object
+			IEnumerable<Friend> friends = syncWorker.GetFriends().Where(friend => $"{friend.Name} - {friend.Id}".Equals(cboFriend.SelectedItem));
 			if (friends.Count() != 1)
 			{
 				MessageBox.Show("No friend found matching that name");
 				return;
 			}
 
+			// Disable the friend selection UI
 			btnFriend.Enabled = false;
 			btnFriendAuto.Enabled = false;
 			btnFriendRefresh.Enabled = false;
 			cboFriend.Enabled = false;
 
-			remotePlaySync.Start(friends.First());
+			// Start the sync worker
+			syncWorker.Start(friends.First());
 		}
 
 		private void btnFriendAuto_Click(object sender, EventArgs e)
 		{
-			IEnumerable<Friend> friends = remotePlaySync.GetFriends().Where(friend => friend.IsPlayingThisGame);
+			if (syncWorker == null) return;
+
+			// Find the friend playing the selected game
+			IEnumerable<Friend> friends = syncWorker.GetFriends().Where(friend => friend.IsPlayingThisGame);
 			if (friends.Count() > 1)
 			{
 				MessageBox.Show("More than 1 friend found playing your selected game");
@@ -190,6 +203,7 @@ namespace RemotePlayTogetherSync
 
 			Friend friend = friends.First();
 
+			// Refresh the friends list and select the found friend
 			RefreshFriendsList();
 			cboWindow.SelectedItem = $"{friend.Name} - {friend.Id}";
 		}

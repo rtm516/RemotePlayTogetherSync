@@ -8,7 +8,7 @@ namespace RemotePlayTogetherSync
 {
 	internal class Logs
 	{
-		private static TextBox textBox;
+		private static TextBox? textBox;
 
 		public static void SetTextBox(TextBox textBox)
 		{
@@ -17,6 +17,8 @@ namespace RemotePlayTogetherSync
 
 		private static void WriteLine(string text)
 		{
+			if (textBox == null) return;
+
 			if (textBox.InvokeRequired)
 			{
 				textBox.Invoke(new Action(() => WriteLine(text)));
