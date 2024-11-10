@@ -78,7 +78,7 @@ jobs:
       uses: ncipollo/release-action@v1
       if: ${{ success() && github.ref_name == 'master' }}
       with:
-        artifacts: "bootstrap/geyser/build/libs/MCXboxBroadcastExtension.jar,bootstrap/standalone/build/libs/MCXboxBroadcastStandalone.jar,egg-m-c-xbox-broadcast.json"
+        artifacts: "RemotePlayTogetherSync\\bin\\x64\\Release\\net8.0-windows\\win-x64\\publish\\"
         allowUpdates: true
         bodyFile: "release_notes.md"
         draft: false

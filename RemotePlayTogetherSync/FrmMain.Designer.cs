@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
 			cboWindow = new ComboBox();
 			btnWindowRefresh = new Button();
 			btnWindowAuto = new Button();
@@ -189,6 +190,7 @@
 			Controls.Add(btnWindowAuto);
 			Controls.Add(btnWindowRefresh);
 			Controls.Add(cboWindow);
+			Icon = (Icon)resources.GetObject("$this.Icon");
 			Margin = new Padding(4, 3, 4, 3);
 			MinimumSize = new Size(400, 558);
 			Name = "FrmMain";
