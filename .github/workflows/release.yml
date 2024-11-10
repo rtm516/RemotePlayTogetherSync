@@ -77,7 +77,7 @@ jobs:
     - name: Zip publish folder
       if: ${{ success() && github.ref_name == 'master' }}
       shell: pwsh
-      run: Compress-Archive -Path RemotePlayTogetherSync/bin/x64/Release/net8.0-windows/win-x64/publish -DestinationPath RemotePlayTogetherSync/bin/x64/Release/net8.0-windows/win-x64/RemotePlayTogetherSync.zip
+      run: Compress-Archive -Path RemotePlayTogetherSync/bin/x64/Release/net8.0-windows/win-x64/publish/* -DestinationPath RemotePlayTogetherSync/bin/x64/Release/net8.0-windows/win-x64/RemotePlayTogetherSync.zip
 
     - name: Create release
       uses: ncipollo/release-action@v1

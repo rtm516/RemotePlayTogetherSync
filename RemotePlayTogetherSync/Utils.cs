@@ -14,16 +14,16 @@ namespace RemotePlayTogetherSync
 		/// Get the install path of Steam
 		/// </summary>
 		/// <returns></returns>
-		public static string GetSteamInstallPath()
+		public static string? GetSteamInstallPath()
 		{
 			string registryKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Valve\Steam"; // For 64-bit systems
-			string installPath = (string)Registry.GetValue(registryKey, "InstallPath", null);
+			string? installPath = (string?)Registry.GetValue(registryKey, "InstallPath", null);
 
 			if (installPath == null)
 			{
 				// Try the 32-bit registry key for 32-bit systems or in case Steam was installed in Program Files (x86)
 				registryKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam";
-				installPath = (string)Registry.GetValue(registryKey, "InstallPath", null);
+				installPath = (string?)Registry.GetValue(registryKey, "InstallPath", null);
 			}
 
 			return installPath;
