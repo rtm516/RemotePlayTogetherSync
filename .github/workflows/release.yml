@@ -1,0 +1,88 @@
+name: Build Release
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "master"
+    paths-ignore:
+      - '.gitignore'
+      - 'LICENSE'
+      - 'README.md'
+
+env:
+  DOTNET_VERSION: "8.0.x"
+
+  BUILD_CONFIGURATION: Release
+  
+  BUILD_PLATFORM: x64
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+        fetch-depth: 0
+
+    - name: Get previous build number
+      id: getPreviousBuild
+      shell: bash
+      run: | 
+        PREVIOUS_TAG=$(git for-each-ref --sort=-version:refname --count 1 --format="%(refname:short)" "refs/tags/*")
+        echo result=${PREVIOUS_TAG} >> $GITHUB_OUTPUT
+
+    - name: Get current build number
+      id: getCurrentBuild
+      if: success()
+      env:
+        PREVIOUS_BUILD: ${{ steps.getPreviousBuild.outputs.result }}
+      shell: bash
+      run: echo result=$((++PREVIOUS_BUILD)) >> $GITHUB_OUTPUT
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Build solution
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: dotnet publish -c ${{env.BUILD_CONFIGURATION}} /p:Platform=${{env.BUILD_PLATFORM}} -r win-x64 --no-self-contained
+
+    - uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: RemotePlayTogetherSync
+        path: RemotePlayTogetherSync\bin\x64\Release\net8.0-windows\win-x64\publish
+        if-no-files-found: error
+
+    - name: Bump version and push tag
+      id: tag_version
+      uses: mathieudutour/github-tag-action@v6.2
+      if: ${{ success() && github.ref_name == 'master' }}
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        tag_prefix: ''
+        custom_tag: ${{ steps.getCurrentBuild.outputs.result }}
+
+    - name: Generate release diff
+      if: ${{ success() && github.ref_name == 'master' }}
+      env:
+        BEGIN_COMMIT: ${{ steps.getPreviousBuild.outputs.result }}
+        END_COMMIT: ${{ steps.getCurrentBuild.outputs.result }}
+      shell: bash
+      run: git fetch --tags --force && git log --pretty=format:"* %s (%h)" ${BEGIN_COMMIT}..${END_COMMIT} > release_notes.md
+
+    - name: Create release
+      uses: ncipollo/release-action@v1
+      if: ${{ success() && github.ref_name == 'master' }}
+      with:
+        artifacts: "bootstrap/geyser/build/libs/MCXboxBroadcastExtension.jar,bootstrap/standalone/build/libs/MCXboxBroadcastStandalone.jar,egg-m-c-xbox-broadcast.json"
+        allowUpdates: true
+        bodyFile: "release_notes.md"
+        draft: false
+        prerelease: false
+        name: Build ${{ steps.getCurrentBuild.outputs.result }} (${{ github.ref_name }})
+        tag: ${{ steps.getCurrentBuild.outputs.result }}
+        token: ${{ secrets.GITHUB_TOKEN }}

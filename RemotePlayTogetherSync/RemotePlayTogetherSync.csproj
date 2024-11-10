@@ -6,6 +6,12 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>True</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>x64</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
