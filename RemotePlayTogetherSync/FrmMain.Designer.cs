@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			components = new System.ComponentModel.Container();
 			cboWindow = new ComboBox();
 			btnWindowRefresh = new Button();
 			btnWindowAuto = new Button();
@@ -38,6 +39,7 @@
 			btnFriend = new Button();
 			groupBox1 = new GroupBox();
 			txtLogs = new TextBox();
+			toolTip = new ToolTip(components);
 			groupBox1.SuspendLayout();
 			SuspendLayout();
 			// 
@@ -51,6 +53,7 @@
 			cboWindow.Name = "cboWindow";
 			cboWindow.Size = new Size(319, 23);
 			cboWindow.TabIndex = 0;
+			toolTip.SetToolTip(cboWindow, "Windows");
 			// 
 			// btnWindowRefresh
 			// 
@@ -62,6 +65,7 @@
 			btnWindowRefresh.Size = new Size(23, 23);
 			btnWindowRefresh.TabIndex = 1;
 			btnWindowRefresh.Text = "R";
+			toolTip.SetToolTip(btnWindowRefresh, "Refresh Windows");
 			btnWindowRefresh.UseVisualStyleBackColor = true;
 			btnWindowRefresh.Click += btnWindowRefresh_Click;
 			// 
@@ -75,6 +79,7 @@
 			btnWindowAuto.Size = new Size(23, 23);
 			btnWindowAuto.TabIndex = 2;
 			btnWindowAuto.Text = "A";
+			toolTip.SetToolTip(btnWindowAuto, "Auto-Detect Window");
 			btnWindowAuto.UseVisualStyleBackColor = true;
 			btnWindowAuto.Click += btnWindowAuto_Click;
 			// 
@@ -87,7 +92,7 @@
 			btnWindow.Name = "btnWindow";
 			btnWindow.Size = new Size(381, 27);
 			btnWindow.TabIndex = 3;
-			btnWindow.Text = "Start";
+			btnWindow.Text = "Set Window";
 			btnWindow.UseVisualStyleBackColor = true;
 			btnWindow.Click += btnWindow_Click;
 			// 
@@ -101,6 +106,7 @@
 			cboFriend.Name = "cboFriend";
 			cboFriend.Size = new Size(319, 23);
 			cboFriend.TabIndex = 4;
+			toolTip.SetToolTip(cboFriend, "Friends");
 			// 
 			// btnFriendRefresh
 			// 
@@ -112,6 +118,7 @@
 			btnFriendRefresh.Size = new Size(23, 23);
 			btnFriendRefresh.TabIndex = 5;
 			btnFriendRefresh.Text = "R";
+			toolTip.SetToolTip(btnFriendRefresh, "Refresh Friends");
 			btnFriendRefresh.UseVisualStyleBackColor = true;
 			// 
 			// btnFriendAuto
@@ -124,6 +131,7 @@
 			btnFriendAuto.Size = new Size(23, 23);
 			btnFriendAuto.TabIndex = 6;
 			btnFriendAuto.Text = "A";
+			toolTip.SetToolTip(btnFriendAuto, "Auto-Detect Friend");
 			btnFriendAuto.UseVisualStyleBackColor = true;
 			btnFriendAuto.Click += btnFriendAuto_Click;
 			// 
@@ -136,7 +144,7 @@
 			btnFriend.Name = "btnFriend";
 			btnFriend.Size = new Size(381, 27);
 			btnFriend.TabIndex = 7;
-			btnFriend.Text = "Start";
+			btnFriend.Text = "Start Monitoring";
 			btnFriend.UseVisualStyleBackColor = true;
 			btnFriend.Click += btnFriend_Click;
 			// 
@@ -203,6 +211,7 @@
 		private System.Windows.Forms.Button btnFriend;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private TextBox txtLogs;
+		private ToolTip toolTip;
 	}
 }
 
