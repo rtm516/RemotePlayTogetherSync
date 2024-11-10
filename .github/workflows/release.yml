@@ -74,11 +74,16 @@ jobs:
       shell: bash
       run: git fetch --tags --force && git log --pretty=format:"* %s (%h)" ${BEGIN_COMMIT}..${END_COMMIT} > release_notes.md
 
+    - name: Zip publish folder
+      if: ${{ success() && github.ref_name == 'master' }}
+      shell: pwsh
+      run: Compress-Archive -Path RemotePlayTogetherSync/bin/x64/Release/net8.0-windows/win-x64/publish -DestinationPath RemotePlayTogetherSync/bin/x64/Release/net8.0-windows/win-x64/RemotePlayTogetherSync.zip
+
     - name: Create release
       uses: ncipollo/release-action@v1
       if: ${{ success() && github.ref_name == 'master' }}
       with:
-        artifacts: "RemotePlayTogetherSync\\bin\\x64\\Release\\net8.0-windows\\win-x64\\publish\\"
+        artifacts: "RemotePlayTogetherSync/bin/x64/Release/net8.0-windows/win-x64/RemotePlayTogetherSync.zip"
         allowUpdates: true
         bodyFile: "release_notes.md"
         draft: false
