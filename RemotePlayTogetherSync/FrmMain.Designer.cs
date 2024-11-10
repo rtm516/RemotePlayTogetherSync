@@ -59,12 +59,12 @@
 			// 
 			btnWindowRefresh.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			btnWindowRefresh.Enabled = false;
+			btnWindowRefresh.Image = Properties.Resources.Refresh;
 			btnWindowRefresh.Location = new Point(340, 12);
 			btnWindowRefresh.Margin = new Padding(4, 3, 4, 3);
 			btnWindowRefresh.Name = "btnWindowRefresh";
 			btnWindowRefresh.Size = new Size(23, 23);
 			btnWindowRefresh.TabIndex = 1;
-			btnWindowRefresh.Text = "R";
 			toolTip.SetToolTip(btnWindowRefresh, "Refresh Windows");
 			btnWindowRefresh.UseVisualStyleBackColor = true;
 			btnWindowRefresh.Click += btnWindowRefresh_Click;
@@ -73,12 +73,12 @@
 			// 
 			btnWindowAuto.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			btnWindowAuto.Enabled = false;
+			btnWindowAuto.Image = Properties.Resources.Search;
 			btnWindowAuto.Location = new Point(371, 12);
 			btnWindowAuto.Margin = new Padding(4, 3, 4, 3);
 			btnWindowAuto.Name = "btnWindowAuto";
 			btnWindowAuto.Size = new Size(23, 23);
 			btnWindowAuto.TabIndex = 2;
-			btnWindowAuto.Text = "A";
 			toolTip.SetToolTip(btnWindowAuto, "Auto-Detect Window");
 			btnWindowAuto.UseVisualStyleBackColor = true;
 			btnWindowAuto.Click += btnWindowAuto_Click;
@@ -112,12 +112,12 @@
 			// 
 			btnFriendRefresh.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			btnFriendRefresh.Enabled = false;
+			btnFriendRefresh.Image = Properties.Resources.Refresh;
 			btnFriendRefresh.Location = new Point(340, 74);
 			btnFriendRefresh.Margin = new Padding(4, 3, 4, 3);
 			btnFriendRefresh.Name = "btnFriendRefresh";
 			btnFriendRefresh.Size = new Size(23, 23);
 			btnFriendRefresh.TabIndex = 5;
-			btnFriendRefresh.Text = "R";
 			toolTip.SetToolTip(btnFriendRefresh, "Refresh Friends");
 			btnFriendRefresh.UseVisualStyleBackColor = true;
 			// 
@@ -125,12 +125,12 @@
 			// 
 			btnFriendAuto.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			btnFriendAuto.Enabled = false;
+			btnFriendAuto.Image = Properties.Resources.Search;
 			btnFriendAuto.Location = new Point(371, 74);
 			btnFriendAuto.Margin = new Padding(4, 3, 4, 3);
 			btnFriendAuto.Name = "btnFriendAuto";
 			btnFriendAuto.Size = new Size(23, 23);
 			btnFriendAuto.TabIndex = 6;
-			btnFriendAuto.Text = "A";
 			toolTip.SetToolTip(btnFriendAuto, "Auto-Detect Friend");
 			btnFriendAuto.UseVisualStyleBackColor = true;
 			btnFriendAuto.Click += btnFriendAuto_Click;
