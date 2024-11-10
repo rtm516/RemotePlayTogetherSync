@@ -98,7 +98,7 @@ namespace RemotePlayTogetherSync
 
 			if (foundApp == null)
 			{
-				MessageBox.Show("No app found");
+				MessageBox.Show("No window found matching a known Steam game");
 				return;
 			}
 
@@ -127,7 +127,7 @@ namespace RemotePlayTogetherSync
 
 			if (foundApp == null)
 			{
-				MessageBox.Show($"No app found with given name '{cboWindow.SelectedItem}'");
+				MessageBox.Show($"No Steam game matching the name '{cboWindow.SelectedItem}'");
 				return;
 			}
 
@@ -161,7 +161,7 @@ namespace RemotePlayTogetherSync
 			IEnumerable<Friend> friends = remotePlaySync.GetFriends().Where(friend => $"{friend.Name} - {friend.Id}".Equals(cboFriend.SelectedItem));
 			if (friends.Count() != 1)
 			{
-				MessageBox.Show("No friend found");
+				MessageBox.Show("No friend found matching that name");
 				return;
 			}
 

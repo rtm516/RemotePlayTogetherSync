@@ -92,7 +92,7 @@
 			btnWindow.Name = "btnWindow";
 			btnWindow.Size = new Size(381, 27);
 			btnWindow.TabIndex = 3;
-			btnWindow.Text = "Set Window";
+			btnWindow.Text = "Set Game";
 			btnWindow.UseVisualStyleBackColor = true;
 			btnWindow.Click += btnWindow_Click;
 			// 
@@ -144,7 +144,7 @@
 			btnFriend.Name = "btnFriend";
 			btnFriend.Size = new Size(381, 27);
 			btnFriend.TabIndex = 7;
-			btnFriend.Text = "Start Monitoring";
+			btnFriend.Text = "Start Syncing";
 			btnFriend.UseVisualStyleBackColor = true;
 			btnFriend.Click += btnFriend_Click;
 			// 
