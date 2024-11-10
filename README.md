@@ -2,6 +2,8 @@
 
 This project is designed to sync achievements for users joining a game via Steam's Remote Play Together. It allows the non-host player to earn and sync achievements to their Steam account, so their progress is tracked just like if they were playing on their own device.
 
+![image](https://github.com/user-attachments/assets/2c05ef75-c4d3-4fc3-974e-1fc757c8d768)
+
 ## Requirements
 
 - **.NET Core 8.0** or higher
