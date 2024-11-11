@@ -1,5 +1,9 @@
 # Steam Remote Play Together Achievements Sync
 
+[![License: GPL-3.0](https://img.shields.io/github/license/rtm516/RemotePlayTogetherSync)](LICENSE)
+[![Build Release](https://github.com/rtm516/RemotePlayTogetherSync/actions/workflows/release.yml/badge.svg)](https://github.com/rtm516/RemotePlayTogetherSync/releases)
+[![HitCount](https://hits.dwyl.com/rtm516/RemotePlayTogetherSync.svg?style=flat)](http://hits.dwyl.com/rtm516/RemotePlayTogetherSync)
+
 This project is designed to sync achievements for users joining a game via Steam's Remote Play Together. It allows the non-host player to earn and sync achievements to their Steam account, so their progress is tracked just like if they were playing on their own device.
 
 ![image](https://github.com/user-attachments/assets/2c05ef75-c4d3-4fc3-974e-1fc757c8d768)
