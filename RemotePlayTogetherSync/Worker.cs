@@ -116,7 +116,7 @@ namespace RemotePlayTogetherSync
 
 					// Unlock the achievement
 					Logs.Info($"Achievement {achievementName} is achieved by friend but not by you, unlocking...");
-					//achievement.Trigger(true);
+					achievement.Trigger(true);
 					changed = true;
 					friendAchievementsCache[achievement.Identifier] = true;
 				}
