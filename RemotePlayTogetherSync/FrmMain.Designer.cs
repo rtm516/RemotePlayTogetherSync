@@ -48,6 +48,7 @@
 			toolStripSeparator1 = new ToolStripSeparator();
 			toolBtnExit = new ToolStripMenuItem();
 			toolBtnHelp = new ToolStripButton();
+			btnStop = new Button();
 			groupBox1.SuspendLayout();
 			toolStrip1.SuspendLayout();
 			SuspendLayout();
@@ -99,7 +100,7 @@
 			btnWindow.Location = new Point(13, 57);
 			btnWindow.Margin = new Padding(4, 3, 4, 3);
 			btnWindow.Name = "btnWindow";
-			btnWindow.Size = new Size(381, 27);
+			btnWindow.Size = new Size(381, 23);
 			btnWindow.TabIndex = 3;
 			btnWindow.Text = "Set Game";
 			btnWindow.UseVisualStyleBackColor = true;
@@ -110,7 +111,7 @@
 			cboFriend.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			cboFriend.Enabled = false;
 			cboFriend.FormattingEnabled = true;
-			cboFriend.Location = new Point(13, 90);
+			cboFriend.Location = new Point(13, 86);
 			cboFriend.Margin = new Padding(4, 3, 4, 3);
 			cboFriend.Name = "cboFriend";
 			cboFriend.Size = new Size(319, 23);
@@ -122,7 +123,7 @@
 			btnFriendRefresh.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			btnFriendRefresh.Enabled = false;
 			btnFriendRefresh.Image = Properties.Resources.Refresh;
-			btnFriendRefresh.Location = new Point(340, 90);
+			btnFriendRefresh.Location = new Point(340, 86);
 			btnFriendRefresh.Margin = new Padding(4, 3, 4, 3);
 			btnFriendRefresh.Name = "btnFriendRefresh";
 			btnFriendRefresh.Size = new Size(23, 23);
@@ -135,7 +136,7 @@
 			btnFriendAuto.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			btnFriendAuto.Enabled = false;
 			btnFriendAuto.Image = Properties.Resources.Search;
-			btnFriendAuto.Location = new Point(371, 90);
+			btnFriendAuto.Location = new Point(371, 86);
 			btnFriendAuto.Margin = new Padding(4, 3, 4, 3);
 			btnFriendAuto.Name = "btnFriendAuto";
 			btnFriendAuto.Size = new Size(23, 23);
@@ -148,10 +149,10 @@
 			// 
 			btnFriend.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			btnFriend.Enabled = false;
-			btnFriend.Location = new Point(13, 119);
+			btnFriend.Location = new Point(13, 115);
 			btnFriend.Margin = new Padding(4, 3, 4, 3);
 			btnFriend.Name = "btnFriend";
-			btnFriend.Size = new Size(381, 27);
+			btnFriend.Size = new Size(289, 23);
 			btnFriend.TabIndex = 7;
 			btnFriend.Text = "Start Syncing";
 			btnFriend.UseVisualStyleBackColor = true;
@@ -161,11 +162,11 @@
 			// 
 			groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 			groupBox1.Controls.Add(txtLogs);
-			groupBox1.Location = new Point(13, 152);
+			groupBox1.Location = new Point(13, 144);
 			groupBox1.Margin = new Padding(4, 3, 4, 3);
 			groupBox1.Name = "groupBox1";
 			groupBox1.Padding = new Padding(4, 3, 4, 3);
-			groupBox1.Size = new Size(381, 355);
+			groupBox1.Size = new Size(381, 363);
 			groupBox1.TabIndex = 8;
 			groupBox1.TabStop = false;
 			groupBox1.Text = "Logs";
@@ -181,7 +182,7 @@
 			txtLogs.Name = "txtLogs";
 			txtLogs.ReadOnly = true;
 			txtLogs.ScrollBars = ScrollBars.Vertical;
-			txtLogs.Size = new Size(373, 333);
+			txtLogs.Size = new Size(373, 341);
 			txtLogs.TabIndex = 0;
 			// 
 			// btnWindowManual
@@ -220,19 +221,19 @@
 			// toolBtnSettings
 			// 
 			toolBtnSettings.Name = "toolBtnSettings";
-			toolBtnSettings.Size = new Size(180, 22);
+			toolBtnSettings.Size = new Size(116, 22);
 			toolBtnSettings.Text = "&Settings";
 			toolBtnSettings.Click += toolBtnSettings_Click;
 			// 
 			// toolStripSeparator1
 			// 
 			toolStripSeparator1.Name = "toolStripSeparator1";
-			toolStripSeparator1.Size = new Size(177, 6);
+			toolStripSeparator1.Size = new Size(113, 6);
 			// 
 			// toolBtnExit
 			// 
 			toolBtnExit.Name = "toolBtnExit";
-			toolBtnExit.Size = new Size(180, 22);
+			toolBtnExit.Size = new Size(116, 22);
 			toolBtnExit.Text = "&Exit";
 			toolBtnExit.Click += toolBtnExit_Click;
 			// 
@@ -245,11 +246,24 @@
 			toolBtnHelp.Text = "&Help";
 			toolBtnHelp.Click += toolBtnHelp_Click;
 			// 
+			// btnStop
+			// 
+			btnStop.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+			btnStop.Enabled = false;
+			btnStop.Location = new Point(309, 115);
+			btnStop.Name = "btnStop";
+			btnStop.Size = new Size(86, 23);
+			btnStop.TabIndex = 11;
+			btnStop.Text = "Stop/Reset";
+			btnStop.UseVisualStyleBackColor = true;
+			btnStop.Click += btnStop_Click;
+			// 
 			// FrmMain
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(407, 519);
+			Controls.Add(btnStop);
 			Controls.Add(btnWindowManual);
 			Controls.Add(toolStrip1);
 			Controls.Add(groupBox1);
@@ -295,6 +309,7 @@
 		private ToolStripSeparator toolStripSeparator1;
 		private ToolStripMenuItem toolBtnExit;
 		private Button btnWindowManual;
+		private Button btnStop;
 	}
 }
 

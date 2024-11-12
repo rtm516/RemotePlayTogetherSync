@@ -152,6 +152,9 @@ namespace RemotePlayTogetherSync
 			btnFriendAuto.Enabled = true;
 			btnFriendRefresh.Enabled = true;
 			cboFriend.Enabled = true;
+
+			// Enable the stop button
+			btnStop.Enabled = true;
 		}
 
 		private void RefreshFriendsList()
@@ -265,6 +268,39 @@ namespace RemotePlayTogetherSync
 			{
 				MessageBox.Show("Invalid app id");
 			}
+		}
+
+		private void btnStop_Click(object sender, EventArgs e)
+		{
+			// Stop the sync worker
+			if (syncWorker != null)
+			{
+				syncWorker.Stop();
+				syncWorker = null;
+			}
+
+			// Reset the combo boxes
+			cboWindow.SelectedIndex = -1;
+			cboFriend.SelectedIndex = -1;
+			RefreshWindowList();
+
+			// Enable the window selection UI
+			btnWindow.Enabled = true;
+			btnWindowAuto.Enabled = true;
+			btnWindowRefresh.Enabled = true;
+			btnWindowManual.Enabled = true;
+			cboWindow.Enabled = true;
+
+			// Disable the friend selection UI
+			btnFriend.Enabled = false;
+			btnFriendAuto.Enabled = false;
+			btnFriendRefresh.Enabled = false;
+			cboFriend.Enabled = false;
+
+			// Disable the stop button
+			btnStop.Enabled = false;
+
+			Logs.Info("Stopped and reset");
 		}
 	}
 }
