@@ -41,7 +41,14 @@
 			groupBox1 = new GroupBox();
 			txtLogs = new TextBox();
 			toolTip = new ToolTip(components);
+			toolStrip1 = new ToolStrip();
+			toolStripDropDownButton1 = new ToolStripDropDownButton();
+			toolBtnSettings = new ToolStripMenuItem();
+			toolStripSeparator1 = new ToolStripSeparator();
+			toolBtnExit = new ToolStripMenuItem();
+			toolBtnHelp = new ToolStripButton();
 			groupBox1.SuspendLayout();
+			toolStrip1.SuspendLayout();
 			SuspendLayout();
 			// 
 			// cboWindow
@@ -49,7 +56,7 @@
 			cboWindow.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			cboWindow.Enabled = false;
 			cboWindow.FormattingEnabled = true;
-			cboWindow.Location = new Point(13, 12);
+			cboWindow.Location = new Point(13, 28);
 			cboWindow.Margin = new Padding(4, 3, 4, 3);
 			cboWindow.Name = "cboWindow";
 			cboWindow.Size = new Size(319, 23);
@@ -61,7 +68,7 @@
 			btnWindowRefresh.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			btnWindowRefresh.Enabled = false;
 			btnWindowRefresh.Image = Properties.Resources.Refresh;
-			btnWindowRefresh.Location = new Point(340, 12);
+			btnWindowRefresh.Location = new Point(340, 28);
 			btnWindowRefresh.Margin = new Padding(4, 3, 4, 3);
 			btnWindowRefresh.Name = "btnWindowRefresh";
 			btnWindowRefresh.Size = new Size(23, 23);
@@ -75,7 +82,7 @@
 			btnWindowAuto.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			btnWindowAuto.Enabled = false;
 			btnWindowAuto.Image = Properties.Resources.Search;
-			btnWindowAuto.Location = new Point(371, 12);
+			btnWindowAuto.Location = new Point(371, 28);
 			btnWindowAuto.Margin = new Padding(4, 3, 4, 3);
 			btnWindowAuto.Name = "btnWindowAuto";
 			btnWindowAuto.Size = new Size(23, 23);
@@ -88,7 +95,7 @@
 			// 
 			btnWindow.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			btnWindow.Enabled = false;
-			btnWindow.Location = new Point(13, 41);
+			btnWindow.Location = new Point(13, 57);
 			btnWindow.Margin = new Padding(4, 3, 4, 3);
 			btnWindow.Name = "btnWindow";
 			btnWindow.Size = new Size(381, 27);
@@ -102,7 +109,7 @@
 			cboFriend.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			cboFriend.Enabled = false;
 			cboFriend.FormattingEnabled = true;
-			cboFriend.Location = new Point(13, 74);
+			cboFriend.Location = new Point(13, 90);
 			cboFriend.Margin = new Padding(4, 3, 4, 3);
 			cboFriend.Name = "cboFriend";
 			cboFriend.Size = new Size(319, 23);
@@ -114,7 +121,7 @@
 			btnFriendRefresh.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			btnFriendRefresh.Enabled = false;
 			btnFriendRefresh.Image = Properties.Resources.Refresh;
-			btnFriendRefresh.Location = new Point(340, 74);
+			btnFriendRefresh.Location = new Point(340, 90);
 			btnFriendRefresh.Margin = new Padding(4, 3, 4, 3);
 			btnFriendRefresh.Name = "btnFriendRefresh";
 			btnFriendRefresh.Size = new Size(23, 23);
@@ -127,7 +134,7 @@
 			btnFriendAuto.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			btnFriendAuto.Enabled = false;
 			btnFriendAuto.Image = Properties.Resources.Search;
-			btnFriendAuto.Location = new Point(371, 74);
+			btnFriendAuto.Location = new Point(371, 90);
 			btnFriendAuto.Margin = new Padding(4, 3, 4, 3);
 			btnFriendAuto.Name = "btnFriendAuto";
 			btnFriendAuto.Size = new Size(23, 23);
@@ -140,7 +147,7 @@
 			// 
 			btnFriend.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 			btnFriend.Enabled = false;
-			btnFriend.Location = new Point(13, 103);
+			btnFriend.Location = new Point(13, 119);
 			btnFriend.Margin = new Padding(4, 3, 4, 3);
 			btnFriend.Name = "btnFriend";
 			btnFriend.Size = new Size(381, 27);
@@ -153,11 +160,11 @@
 			// 
 			groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 			groupBox1.Controls.Add(txtLogs);
-			groupBox1.Location = new Point(13, 136);
+			groupBox1.Location = new Point(13, 152);
 			groupBox1.Margin = new Padding(4, 3, 4, 3);
 			groupBox1.Name = "groupBox1";
 			groupBox1.Padding = new Padding(4, 3, 4, 3);
-			groupBox1.Size = new Size(381, 371);
+			groupBox1.Size = new Size(381, 355);
 			groupBox1.TabIndex = 8;
 			groupBox1.TabStop = false;
 			groupBox1.Text = "Logs";
@@ -173,14 +180,62 @@
 			txtLogs.Name = "txtLogs";
 			txtLogs.ReadOnly = true;
 			txtLogs.ScrollBars = ScrollBars.Vertical;
-			txtLogs.Size = new Size(373, 349);
+			txtLogs.Size = new Size(373, 333);
 			txtLogs.TabIndex = 0;
+			// 
+			// toolStrip1
+			// 
+			toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
+			toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButton1, toolBtnHelp });
+			toolStrip1.Location = new Point(0, 0);
+			toolStrip1.Name = "toolStrip1";
+			toolStrip1.Size = new Size(407, 25);
+			toolStrip1.TabIndex = 9;
+			toolStrip1.Text = "toolStrip1";
+			// 
+			// toolStripDropDownButton1
+			// 
+			toolStripDropDownButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
+			toolStripDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { toolBtnSettings, toolStripSeparator1, toolBtnExit });
+			toolStripDropDownButton1.ImageTransparentColor = Color.Magenta;
+			toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+			toolStripDropDownButton1.Size = new Size(38, 22);
+			toolStripDropDownButton1.Text = "&File";
+			// 
+			// toolBtnSettings
+			// 
+			toolBtnSettings.Name = "toolBtnSettings";
+			toolBtnSettings.Size = new Size(116, 22);
+			toolBtnSettings.Text = "&Settings";
+			toolBtnSettings.Click += toolBtnSettings_Click;
+			// 
+			// toolStripSeparator1
+			// 
+			toolStripSeparator1.Name = "toolStripSeparator1";
+			toolStripSeparator1.Size = new Size(113, 6);
+			// 
+			// toolBtnExit
+			// 
+			toolBtnExit.Name = "toolBtnExit";
+			toolBtnExit.Size = new Size(116, 22);
+			toolBtnExit.Text = "&Exit";
+			toolBtnExit.Click += toolBtnExit_Click;
+			// 
+			// toolBtnHelp
+			// 
+			toolBtnHelp.DisplayStyle = ToolStripItemDisplayStyle.Text;
+			toolBtnHelp.ImageTransparentColor = Color.Magenta;
+			toolBtnHelp.Name = "toolBtnHelp";
+			toolBtnHelp.Size = new Size(36, 22);
+			toolBtnHelp.Text = "&Help";
+			toolBtnHelp.Click += toolBtnHelp_Click;
 			// 
 			// FrmMain
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(407, 519);
+			Controls.Add(toolStrip1);
 			Controls.Add(groupBox1);
 			Controls.Add(btnFriend);
 			Controls.Add(btnFriendAuto);
@@ -192,13 +247,16 @@
 			Controls.Add(cboWindow);
 			Icon = (Icon)resources.GetObject("$this.Icon");
 			Margin = new Padding(4, 3, 4, 3);
-			MinimumSize = new Size(400, 558);
+			MinimumSize = new Size(423, 558);
 			Name = "FrmMain";
 			Text = "Remote Play Together Achievements Sync";
 			Load += Form1_Load;
 			groupBox1.ResumeLayout(false);
 			groupBox1.PerformLayout();
+			toolStrip1.ResumeLayout(false);
+			toolStrip1.PerformLayout();
 			ResumeLayout(false);
+			PerformLayout();
 		}
 
 		#endregion
@@ -214,6 +272,12 @@
 		private System.Windows.Forms.GroupBox groupBox1;
 		private TextBox txtLogs;
 		private ToolTip toolTip;
+		private ToolStrip toolStrip1;
+		private ToolStripDropDownButton toolStripDropDownButton1;
+		private ToolStripButton toolBtnHelp;
+		private ToolStripMenuItem toolBtnSettings;
+		private ToolStripSeparator toolStripSeparator1;
+		private ToolStripMenuItem toolBtnExit;
 	}
 }
 

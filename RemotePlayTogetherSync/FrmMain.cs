@@ -212,5 +212,25 @@ namespace RemotePlayTogetherSync
 		{
 			RefreshFriendsList();
 		}
+
+		private void toolBtnHelp_Click(object sender, EventArgs e)
+		{
+			Process.Start(new ProcessStartInfo
+			{
+				FileName = "https://github.com/rtm516/RemotePlayTogetherSync/",
+				UseShellExecute = true
+			});
+		}
+
+		private void toolBtnExit_Click(object sender, EventArgs e)
+		{
+			Application.Exit();
+		}
+
+		private void toolBtnSettings_Click(object sender, EventArgs e)
+		{
+			FrmSettings frmSettings = new();
+			frmSettings.ShowDialog();
+		}
 	}
 }

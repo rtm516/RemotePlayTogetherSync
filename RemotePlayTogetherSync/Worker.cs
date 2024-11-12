@@ -13,6 +13,7 @@ namespace RemotePlayTogetherSync
 		private SteamAppList.App _App;
 		private Friend _Friend;
 		private System.Timers.Timer internalTimer;
+		private Dictionary<string, bool> friendAchievementsCache = new();
 
 		public Worker(SteamAppList.App app)
 		{
@@ -53,9 +54,34 @@ namespace RemotePlayTogetherSync
 			Logs.Info("Loading achievements...");
 			Logs.Info($"Found {SteamUserStats.Achievements.Count()} achievements");
 
-			Tick();
+			// Don't cache friend achievements if the setting is enabled
+			if (Properties.Settings.Default.UnlockAllAchievements)
+			{
+				// Perform the first tick immediately and start the timer
+				Tick();
+				internalTimer.Start();
+				return;
+			}
 
-			internalTimer.Start();
+			// Cache the friend achievements
+			Logs.Info("Caching friend achievements...");
+			this._Friend.RequestUserStatsAsync().ContinueWith((loaded) =>
+			{
+				// Ensure the stats are loaded
+				if (!loaded.Result)
+				{
+					Logs.Error("Unable to load friend stats");
+					return;
+				}
+
+				// Save achievements to cache
+				foreach (Achievement achievement in SteamUserStats.Achievements)
+				{
+					friendAchievementsCache[achievement.Identifier] = friend.GetAchievement(achievement.Identifier);
+				}
+
+				internalTimer.Start();
+			});
 		}
 
 		/// <summary>
@@ -80,16 +106,19 @@ namespace RemotePlayTogetherSync
 					string achievementName = achievement.Identifier;
 					bool isAchieved = achievement.State;
 					bool isAchievedFriend = this._Friend.GetAchievement(achievement.Identifier);
-
-					//Logs.Debug($"{achievementName}: {isAchieved} (you) vs {isAchievedFriend} (friend)");
+					bool cachedIsAchievedFriend = friendAchievementsCache.GetValueOrDefault(achievement.Identifier, false);
 
 					// Skip if the achievement its locked for the friend or unlocked for you
 					if (!isAchievedFriend || isAchieved) continue;
 
+					// Skip if we are not unlcoking all achievements and the achievement is already unlocked in the past
+					if (!Properties.Settings.Default.UnlockAllAchievements && cachedIsAchievedFriend) continue;
+
 					// Unlock the achievement
 					Logs.Info($"Achievement {achievementName} is achieved by friend but not by you, unlocking...");
-					achievement.Trigger(true);
+					//achievement.Trigger(true);
 					changed = true;
+					friendAchievementsCache[achievement.Identifier] = true;
 				}
 
 				// Debug log if no changes were made

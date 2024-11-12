@@ -45,7 +45,7 @@ namespace RemotePlayTogetherSync
 
 		public static void Debug(string text)
 		{
-			Log("DEBUG", text);
+			if (Properties.Settings.Default.EnableDebugLogs) Log("DEBUG", text);
 		}
 	}
 }
