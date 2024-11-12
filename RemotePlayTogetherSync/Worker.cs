@@ -5,17 +5,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static RemotePlayTogetherSync.SteamAppList;
 
 namespace RemotePlayTogetherSync
 {
     internal class Worker
 	{
-		private SteamAppList.App _App;
+		private App _App;
 		private Friend _Friend;
 		private System.Timers.Timer internalTimer;
 		private Dictionary<string, bool> friendAchievementsCache = new();
 
-		public Worker(SteamAppList.App app)
+		public Worker(App app)
 		{
 			this._App = app;
 
@@ -25,8 +26,17 @@ namespace RemotePlayTogetherSync
 
 			// Setup the timer for updates
 			internalTimer = new();
-			internalTimer.Interval = 10 * 1000; // 10s
+			internalTimer.Interval = Properties.Settings.Default.UpdateInterval * 1000;
 			internalTimer.Elapsed += (sender, e) => Tick();
+
+			// Listen for settings changes
+			Properties.Settings.Default.PropertyChanged += (sender, e) =>
+			{
+				if (e.PropertyName == "UpdateInterval")
+				{
+					internalTimer.Interval = Properties.Settings.Default.UpdateInterval * 1000;
+				}
+			};
 		}
 
 		~Worker()

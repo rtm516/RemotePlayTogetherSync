@@ -30,6 +30,9 @@
 		{
 			chkDebug = new CheckBox();
 			chkUnlockAll = new CheckBox();
+			numInterval = new NumericUpDown();
+			label1 = new Label();
+			((System.ComponentModel.ISupportInitialize)numInterval).BeginInit();
 			SuspendLayout();
 			// 
 			// chkDebug
@@ -54,11 +57,34 @@
 			chkUnlockAll.UseVisualStyleBackColor = true;
 			chkUnlockAll.CheckedChanged += chkUnlockAll_CheckedChanged;
 			// 
+			// numInterval
+			// 
+			numInterval.Increment = new decimal(new int[] { 10, 0, 0, 0 });
+			numInterval.Location = new Point(12, 62);
+			numInterval.Maximum = new decimal(new int[] { 300, 0, 0, 0 });
+			numInterval.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
+			numInterval.Name = "numInterval";
+			numInterval.Size = new Size(54, 23);
+			numInterval.TabIndex = 2;
+			numInterval.Value = new decimal(new int[] { 20, 0, 0, 0 });
+			numInterval.ValueChanged += numInterval_ValueChanged;
+			// 
+			// label1
+			// 
+			label1.AutoSize = true;
+			label1.Location = new Point(72, 64);
+			label1.Name = "label1";
+			label1.Size = new Size(141, 15);
+			label1.TabIndex = 3;
+			label1.Text = "Update interval (seconds)";
+			// 
 			// FrmSettings
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(284, 68);
+			ClientSize = new Size(284, 97);
+			Controls.Add(label1);
+			Controls.Add(numInterval);
 			Controls.Add(chkUnlockAll);
 			Controls.Add(chkDebug);
 			FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -67,6 +93,7 @@
 			Name = "FrmSettings";
 			StartPosition = FormStartPosition.CenterParent;
 			Text = "Settings";
+			((System.ComponentModel.ISupportInitialize)numInterval).EndInit();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -75,5 +102,7 @@
 
 		private CheckBox chkDebug;
 		private CheckBox chkUnlockAll;
+		private NumericUpDown numInterval;
+		private Label label1;
 	}
 }

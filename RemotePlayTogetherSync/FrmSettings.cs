@@ -18,6 +18,7 @@ namespace RemotePlayTogetherSync
 
 			chkDebug.Checked = Properties.Settings.Default.EnableDebugLogs;
 			chkUnlockAll.Checked = Properties.Settings.Default.UnlockAllAchievements;
+			numInterval.Value = Properties.Settings.Default.UpdateInterval;
 		}
 
 		private void chkDebug_CheckedChanged(object sender, EventArgs e)
@@ -29,6 +30,12 @@ namespace RemotePlayTogetherSync
 		private void chkUnlockAll_CheckedChanged(object sender, EventArgs e)
 		{
 			Properties.Settings.Default.UnlockAllAchievements = chkUnlockAll.Checked;
+			Properties.Settings.Default.Save();
+		}
+
+		private void numInterval_ValueChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.UpdateInterval = (int)numInterval.Value;
 			Properties.Settings.Default.Save();
 		}
 	}
