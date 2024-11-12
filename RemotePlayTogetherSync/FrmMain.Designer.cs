@@ -41,6 +41,7 @@
 			groupBox1 = new GroupBox();
 			txtLogs = new TextBox();
 			toolTip = new ToolTip(components);
+			btnWindowManual = new Button();
 			toolStrip1 = new ToolStrip();
 			toolStripDropDownButton1 = new ToolStripDropDownButton();
 			toolBtnSettings = new ToolStripMenuItem();
@@ -59,7 +60,7 @@
 			cboWindow.Location = new Point(13, 28);
 			cboWindow.Margin = new Padding(4, 3, 4, 3);
 			cboWindow.Name = "cboWindow";
-			cboWindow.Size = new Size(319, 23);
+			cboWindow.Size = new Size(288, 23);
 			cboWindow.TabIndex = 0;
 			toolTip.SetToolTip(cboWindow, "Windows");
 			// 
@@ -183,6 +184,20 @@
 			txtLogs.Size = new Size(373, 333);
 			txtLogs.TabIndex = 0;
 			// 
+			// btnWindowManual
+			// 
+			btnWindowManual.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+			btnWindowManual.Enabled = false;
+			btnWindowManual.Image = Properties.Resources.Input;
+			btnWindowManual.Location = new Point(309, 28);
+			btnWindowManual.Margin = new Padding(4, 3, 4, 3);
+			btnWindowManual.Name = "btnWindowManual";
+			btnWindowManual.Size = new Size(23, 23);
+			btnWindowManual.TabIndex = 10;
+			toolTip.SetToolTip(btnWindowManual, "Manual input");
+			btnWindowManual.UseVisualStyleBackColor = true;
+			btnWindowManual.Click += btnWindowManual_Click;
+			// 
 			// toolStrip1
 			// 
 			toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
@@ -205,19 +220,19 @@
 			// toolBtnSettings
 			// 
 			toolBtnSettings.Name = "toolBtnSettings";
-			toolBtnSettings.Size = new Size(116, 22);
+			toolBtnSettings.Size = new Size(180, 22);
 			toolBtnSettings.Text = "&Settings";
 			toolBtnSettings.Click += toolBtnSettings_Click;
 			// 
 			// toolStripSeparator1
 			// 
 			toolStripSeparator1.Name = "toolStripSeparator1";
-			toolStripSeparator1.Size = new Size(113, 6);
+			toolStripSeparator1.Size = new Size(177, 6);
 			// 
 			// toolBtnExit
 			// 
 			toolBtnExit.Name = "toolBtnExit";
-			toolBtnExit.Size = new Size(116, 22);
+			toolBtnExit.Size = new Size(180, 22);
 			toolBtnExit.Text = "&Exit";
 			toolBtnExit.Click += toolBtnExit_Click;
 			// 
@@ -235,6 +250,7 @@
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(407, 519);
+			Controls.Add(btnWindowManual);
 			Controls.Add(toolStrip1);
 			Controls.Add(groupBox1);
 			Controls.Add(btnFriend);
@@ -250,7 +266,7 @@
 			MinimumSize = new Size(423, 558);
 			Name = "FrmMain";
 			Text = "Remote Play Together Achievements Sync";
-			Load += Form1_Load;
+			Load += FrmMain_Load;
 			groupBox1.ResumeLayout(false);
 			groupBox1.PerformLayout();
 			toolStrip1.ResumeLayout(false);
@@ -278,6 +294,7 @@
 		private ToolStripMenuItem toolBtnSettings;
 		private ToolStripSeparator toolStripSeparator1;
 		private ToolStripMenuItem toolBtnExit;
+		private Button btnWindowManual;
 	}
 }
 

@@ -22,7 +22,7 @@ namespace RemotePlayTogetherSync
 			InitializeComponent();
 		}
 
-		private void Form1_Load(object sender, EventArgs e)
+		private void FrmMain_Load(object sender, EventArgs e)
 		{
 			// Check if Steam is installed
 			if (string.IsNullOrEmpty(Utils.GetSteamInstallPath()) == true)
@@ -71,6 +71,7 @@ namespace RemotePlayTogetherSync
 					btnWindow.Enabled = true;
 					btnWindowAuto.Enabled = true;
 					btnWindowRefresh.Enabled = true;
+					btnWindowManual.Enabled = true;
 					cboWindow.Enabled = true;
 				});
 
@@ -130,7 +131,12 @@ namespace RemotePlayTogetherSync
 				return;
 			}
 
-			syncWorker = new(foundApp);
+			SetApp(foundApp);
+		}
+
+		private void SetApp(App targetApp)
+		{
+			syncWorker = new(targetApp);
 
 			RefreshFriendsList();
 
@@ -138,6 +144,7 @@ namespace RemotePlayTogetherSync
 			btnWindow.Enabled = false;
 			btnWindowAuto.Enabled = false;
 			btnWindowRefresh.Enabled = false;
+			btnWindowManual.Enabled = false;
 			cboWindow.Enabled = false;
 
 			// Enable the friend selection UI
@@ -231,6 +238,33 @@ namespace RemotePlayTogetherSync
 		{
 			FrmSettings frmSettings = new();
 			frmSettings.ShowDialog();
+		}
+
+		private void btnWindowManual_Click(object sender, EventArgs e)
+		{
+			string? value = FrmInputBox.Show("Manual App ID input", "Enter the Steam App ID of the game");
+
+			if (string.IsNullOrEmpty(value)) return;
+
+			try
+			{
+				// Find the selected app object
+				int intValue = int.Parse(value);
+				App? foundApp = appList.FirstOrDefault(app => app.Id.Equals(intValue));
+				if (foundApp == null)
+				{
+					MessageBox.Show($"No Steam game matching the name '{value}'");
+					return;
+				}
+
+				// Refresh the window list and select the found app
+				cboWindow.Text = foundApp.Name;
+				SetApp(foundApp);
+			}
+			catch (Exception)
+			{
+				MessageBox.Show("Invalid app id");
+			}
 		}
 	}
 }
