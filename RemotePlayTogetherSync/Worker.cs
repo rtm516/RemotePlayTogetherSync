@@ -11,30 +11,30 @@ namespace RemotePlayTogetherSync
 {
     internal class Worker
 	{
-		private App _App;
-		private Friend _Friend;
-		private System.Timers.Timer internalTimer;
-		private Dictionary<string, bool> friendAchievementsCache = new();
+		private App _app;
+		private Friend _friend;
+		private System.Timers.Timer _internalTimer;
+		private Dictionary<string, bool> _friendAchievementsCache = new();
 
 		public Worker(App app)
 		{
-			this._App = app;
+			_app = app;
 
 			// Initialize the connection to Steam as the selected app
-			SteamClient.Init((uint)_App.Id, true);
-			Logs.Info($"Initialized as {_App.Name} ({_App.Id})");
+			SteamClient.Init((uint)_app.Id, true);
+			Logs.Info($"Initialized as {_app.Name} ({_app.Id})");
 
 			// Setup the timer for updates
-			internalTimer = new();
-			internalTimer.Interval = Properties.Settings.Default.UpdateInterval * 1000;
-			internalTimer.Elapsed += (sender, e) => Tick();
+			_internalTimer = new();
+			_internalTimer.Interval = Properties.Settings.Default.UpdateInterval * 1000;
+			_internalTimer.Elapsed += (sender, e) => Tick();
 
 			// Listen for settings changes
 			Properties.Settings.Default.PropertyChanged += (sender, e) =>
 			{
 				if (e.PropertyName == "UpdateInterval")
 				{
-					internalTimer.Interval = Properties.Settings.Default.UpdateInterval * 1000;
+					_internalTimer.Interval = Properties.Settings.Default.UpdateInterval * 1000;
 				}
 			};
 		}
@@ -59,7 +59,7 @@ namespace RemotePlayTogetherSync
 		/// <param name="friend"></param>
 		public void Start(Friend friend)
 		{
-			this._Friend = friend;
+			this._friend = friend;
 
 			Logs.Info("Loading achievements...");
 			Logs.Info($"Found {SteamUserStats.Achievements.Count()} achievements");
@@ -69,13 +69,13 @@ namespace RemotePlayTogetherSync
 			{
 				// Perform the first tick immediately and start the timer
 				Tick();
-				internalTimer.Start();
+				_internalTimer.Start();
 				return;
 			}
 
 			// Cache the friend achievements
 			Logs.Info("Caching friend achievements...");
-			this._Friend.RequestUserStatsAsync().ContinueWith((loaded) =>
+			_friend.RequestUserStatsAsync().ContinueWith((loaded) =>
 			{
 				// Ensure the stats are loaded
 				if (!loaded.Result)
@@ -87,10 +87,10 @@ namespace RemotePlayTogetherSync
 				// Save achievements to cache
 				foreach (Achievement achievement in SteamUserStats.Achievements)
 				{
-					friendAchievementsCache[achievement.Identifier] = friend.GetAchievement(achievement.Identifier);
+					_friendAchievementsCache[achievement.Identifier] = friend.GetAchievement(achievement.Identifier);
 				}
 
-				internalTimer.Start();
+				_internalTimer.Start();
 			});
 		}
 
@@ -100,7 +100,7 @@ namespace RemotePlayTogetherSync
 		public void Tick()
 		{
 			Logs.Debug("Comparing friend stats...");
-			this._Friend.RequestUserStatsAsync().ContinueWith((loaded) =>
+			_friend.RequestUserStatsAsync().ContinueWith((loaded) =>
 			{
 				// Ensure the stats are loaded
 				if (!loaded.Result)
@@ -115,8 +115,8 @@ namespace RemotePlayTogetherSync
 					// Get the achievement details
 					string achievementName = achievement.Identifier;
 					bool isAchieved = achievement.State;
-					bool isAchievedFriend = this._Friend.GetAchievement(achievement.Identifier);
-					bool cachedIsAchievedFriend = friendAchievementsCache.GetValueOrDefault(achievement.Identifier, false);
+					bool isAchievedFriend = _friend.GetAchievement(achievement.Identifier);
+					bool cachedIsAchievedFriend = _friendAchievementsCache.GetValueOrDefault(achievement.Identifier, false);
 
 					// Skip if the achievement its locked for the friend or unlocked for you
 					if (!isAchievedFriend || isAchieved) continue;
@@ -128,7 +128,7 @@ namespace RemotePlayTogetherSync
 					Logs.Info($"Achievement {achievementName} is achieved by friend but not by you, unlocking...");
 					achievement.Trigger(true);
 					changed = true;
-					friendAchievementsCache[achievement.Identifier] = true;
+					_friendAchievementsCache[achievement.Identifier] = true;
 				}
 
 				// Debug log if no changes were made
@@ -144,7 +144,7 @@ namespace RemotePlayTogetherSync
 		/// </summary>
 		public void Stop()
 		{
-			internalTimer.Stop();
+			_internalTimer.Stop();
 			SteamClient.Shutdown();
 		}
 	}
